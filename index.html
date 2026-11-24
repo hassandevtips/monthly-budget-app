@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#101827" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="My Budget" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link rel="icon" href="icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>My Monthly Budget</title>
+  </head>
+  <body>
+    <div id="storageError" class="storage-error hidden" role="alert"></div>
+    <div class="lock" id="lockScreen">
+      <form class="lockbox" id="unlockForm">
+        <div style="font-size: 34px">🔐</div>
+        <h1 id="lockTitle">My Monthly Budget</h1>
+        <p id="lockMessage"></p>
+        <label for="pinInput">Budget PIN</label
+        ><input
+          id="pinInput"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]{4,6}"
+          minlength="4"
+          maxlength="6"
+          required
+          autocomplete="off"
+        /><button class="primary" id="unlockBtn">Unlock</button>
+        <p id="lockError" class="red" role="alert"></p>
+        <p class="note">
+          A local screen lock, not encryption. Keep your PIN safe.
+        </p>
+      </form>
+    </div>
+    <main class="wrap hidden" id="app">
+      <header class="top">
+        <div class="eyebrow">Personal finance · Your monthly plan</div>
+        <h1>My Monthly Budget</h1>
+        <div class="sub">A clear plan. One payment at a time.</div>
+        <div class="monthrow">
+          <label class="muted" for="month">Budget month</label
+          ><input
+            id="month"
+            type="month"
+            required
+            min="1900-01"
+            max="9999-12"
+          />
+        </div>
+      </header>
+      <section class="panel">
+        <div class="salary">
+          <div>
+            <label class="muted" for="salary">MONTHLY INCOME (PKR)</label>
+            <div>
+              <input
+                class="income-input"
+                id="salary"
+                type="number"
+                min="0"
+                max="1000000000000"
+                step="0.01"
+                aria-describedby="incomeHelp"
+              />
+            </div>
+          </div>
+          <button class="compact" id="incomeDefault">
+            Use for future months
+          </button>
+        </div>
+        <p class="note" id="incomeHelp">
+          Income changes apply to this month. Use the button to also update
+          future unsaved months.
+        </p>
+        <div class="summary">
+          <div class="metric">
+            <div class="muted">Planned remaining</div>
+            <div class="value" id="plannedLeft"></div>
+          </div>
+          <div class="metric">
+            <div class="muted">Cash after paid items</div>
+            <div class="value" id="cashLeft"></div>
+          </div>
+          <div class="metric">
+            <div class="muted">Total planned</div>
+            <div class="value" id="plannedTotal"></div>
+          </div>
+          <div class="metric">
+            <div class="muted">Paid so far</div>
+            <div class="value" id="paidTotal"></div>
+          </div>
+        </div>
+        <div class="muted" style="margin-top: 14px" id="progressText"></div>
+        <div
+          class="progress"
+          role="progressbar"
+          aria-label="Payments completed"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          id="progressTrack"
+        >
+          <div class="bar" id="progress"></div>
+        </div>
+        <p class="note" id="smartNote"></p>
+      </section>
+      <section class="panel">
+        <div class="toolbar">
+          <h2>Expense checklist</h2>
+          <button class="primary" id="addExpense">+ Add expense</button>
+        </div>
+        <div class="filters" role="group" aria-label="Filter expenses">
+          <button data-filter="all" aria-pressed="true">All</button
+          ><button data-filter="unpaid" aria-pressed="false">Unpaid</button
+          ><button data-filter="paid" aria-pressed="false">Paid</button
+          ><button data-filter="overdue" aria-pressed="false">Overdue</button>
+        </div>
+        <h3 style="font-size: 14px; color: var(--muted)">Fixed expenses</h3>
+        <div id="fixedList"></div>
+        <h3 style="font-size: 14px; color: var(--muted)">Flexible expenses</h3>
+        <div id="flexList"></div>
+      </section>
+      <section class="panel">
+        <div class="toolbar">
+          <h2>Recurring monthly plan</h2>
+          <button id="manageRecurring">Manage plan</button>
+        </div>
+        <p class="note">
+          Choose what comes every month. Saved months stay unchanged. Plan
+          changes take effect from the selected month for months you have not
+          opened yet.
+        </p>
+        <div id="recurringSummary" class="muted"></div>
+      </section>
+      <section class="panel">
+        <h2>Monthly history</h2>
+        <p class="note">
+          Open any saved month to review its expenses and payment dates.
+        </p>
+        <div id="historyList"></div>
+      </section>
+      <section class="panel">
+        <h2>Payment & change history</h2>
+        <p class="note">
+          Dates and times are shown in this device’s timezone. Unchecking a
+          payment keeps its earlier check in this history.
+        </p>
+        <div id="activityList"></div>
+        <button id="moreActivity" class="hidden">Show all activity</button>
+      </section>
+      <section class="panel">
+        <h2>Security & backup</h2>
+        <div class="actions">
+          <button id="changePin">Change PIN</button
+          ><button id="lockNow">Lock now</button
+          ><button id="export">Export backup</button
+          ><button id="import">Restore backup</button
+          ><input
+            id="backupFile"
+            class="hidden"
+            type="file"
+            accept=".json,application/json"
+          />
+        </div>
+        <p class="note">
+          Records stay in this browser on this device. Export regularly.
+          Clearing website data removes local records. Backups contain your
+          budget, not your PIN. Restoring replaces this app’s records.
+        </p>
+        <button id="copy">Copy monthly summary</button>
+      </section>
+      <section class="panel">
+        <h2>Add to your home screen</h2>
+        <button id="install" class="hidden primary">Install My Budget</button>
+        <p class="install-help">
+          iPhone: open this link in Safari → Share → Add to Home Screen.<br />Android:
+          open in Chrome → menu ⋮ → Add to Home screen / Install app.<br />After
+          the first online visit, the app works offline.
+        </p>
+      </section>
+      <footer class="footer">
+        Stored on this device · No account required · PKR
+      </footer>
+    </main>
+    <dialog id="editor">
+      <form id="expenseForm">
+        <h2 id="editorTitle">Add expense</h2>
+        <label for="expenseName">Expense name</label
+        ><input
+          id="expenseName"
+          maxlength="120"
+          required
+          autocomplete="off"
+        /><label for="expenseAmount">Amount (PKR)</label
+        ><input
+          id="expenseAmount"
+          type="number"
+          min="0"
+          max="1000000000000"
+          step="0.01"
+          required
+          inputmode="decimal"
+        /><label for="expenseCategory">Category</label
+        ><select id="expenseCategory">
+          <option value="fixed">Fixed</option>
+          <option value="flex">Flexible</option></select
+        ><label for="expenseDue">Due day (optional, 1–31)</label
+        ><input id="expenseDue" type="number" min="1" max="31" step="1" /><label
+          class="checklabel"
+          id="repeatLabel"
+          ><input id="expenseRepeat" type="checkbox" />Also add to the recurring
+          monthly plan</label
+        >
+        <p id="editScope" class="note"></p>
+        <div class="actions">
+          <button type="button" data-close="editor">Cancel</button
+          ><button type="submit" class="primary">Save expense</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="recurringDialog">
+      <h2>Recurring monthly plan</h2>
+      <p class="note" id="planHelp"></p>
+      <div id="recurringList"></div>
+      <div class="actions">
+        <button id="addRecurring" class="primary">
+          + Add recurring expense</button
+        ><button data-close="recurringDialog">Done</button>
+      </div>
+    </dialog>
+    <dialog id="confirmDialog">
+      <h2 id="confirmTitle"></h2>
+      <p id="confirmText"></p>
+      <div class="actions">
+        <button id="confirmCancel">Cancel</button
+        ><button class="primary" id="confirmYes">Confirm</button>
+      </div>
+    </dialog>
+    <dialog id="pinDialog">
+      <form id="pinForm">
+        <h2>Change PIN</h2>
+        <label for="oldPin">Current PIN</label
+        ><input
+          id="oldPin"
+          type="password"
+          inputmode="numeric"
+          required
+          autocomplete="off"
+        /><label for="newPin">New PIN (4–6 digits)</label
+        ><input
+          id="newPin"
+          type="password"
+          inputmode="numeric"
+          pattern="[0-9]{4,6}"
+          minlength="4"
+          maxlength="6"
+          required
+          autocomplete="off"
+        />
+        <p id="pinError" class="red" role="alert"></p>
+        <div class="actions">
+          <button type="button" data-close="pinDialog">Cancel</button
+          ><button class="primary">Save PIN</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="status" class="status hidden" role="status"></div>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

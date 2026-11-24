@@ -1,0 +1,2 @@
+# Monthly Budget
+Approved in chat: retain the supplied dark mobile design and English interface. Add expense CRUD, dated payment check/uncheck activity, effective-month recurring templates, editable monthly income, independent historical snapshots, backup export/import, PIN gate, and installable offline support. Use local browser storage; no cross-device sync. Publish to GitHub Pages under the authenticated account. Existing v1 records must migrate without losing amounts or paid flags. A PIN is a local screen lock, not data encryption.

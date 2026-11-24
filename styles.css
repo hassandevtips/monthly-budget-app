@@ -1,0 +1,460 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --panel: #131e30;
+  --line: #26364d;
+  --muted: #9aabc2;
+  --text: #f4f7fb;
+  --green: #42d392;
+  --blue: #7db5ff;
+  --red: #ff7e86;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: linear-gradient(160deg, #101c30, #090f1b 55%);
+  font:
+    16px -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: var(--text);
+  padding: env(safe-area-inset-top) 16px
+    calc(28px + env(safe-area-inset-bottom));
+}
+.wrap {
+  max-width: 620px;
+  margin: auto;
+}
+.top {
+  padding: 22px 2px 14px;
+}
+.eyebrow {
+  color: var(--green);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+.top h1 {
+  font-size: 28px;
+  margin: 6px 0;
+}
+.sub,
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+.panel {
+  background: rgba(19, 30, 48, 0.96);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 10px 28px #0002;
+}
+.salary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.salary strong {
+  font-size: 27px;
+}
+.monthrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 15px;
+}
+input,
+select {
+  background: #0b1423;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 11px 12px;
+  font: inherit;
+  min-width: 0;
+}
+input[type="month"] {
+  width: 165px;
+}
+input[type="number"] {
+  width: 125px;
+  text-align: right;
+}
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.metric {
+  background: #0d1727;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 13px;
+}
+.metric .value {
+  font-size: 20px;
+  font-weight: 750;
+  margin-top: 5px;
+}
+.green {
+  color: var(--green);
+}
+.blue {
+  color: var(--blue);
+}
+.red {
+  color: var(--red);
+}
+h2 {
+  font-size: 17px;
+  margin: 4px 0 12px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid #25344a;
+}
+.item:first-of-type {
+  border-top: 0;
+}
+.item input[type="checkbox"] {
+  width: 21px;
+  height: 21px;
+  accent-color: #42d392;
+  flex: 0 0 auto;
+}
+.name {
+  flex: 1;
+  min-width: 0;
+}
+.name b {
+  display: block;
+  font-size: 15px;
+}
+.name small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.amount {
+  width: 118px !important;
+  padding: 9px 8px !important;
+}
+.tag,
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.progress {
+  height: 7px;
+  background: #25344a;
+  border-radius: 9px;
+  overflow: hidden;
+  margin: 9px 0 3px;
+}
+.bar {
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  transition: width 0.2s;
+}
+.footer {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+  padding: 16px 8px;
+}
+.actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+button {
+  border: 1px solid var(--line);
+  background: #1c2b42;
+  color: var(--text);
+  padding: 11px 14px;
+  border-radius: 11px;
+  font-weight: 650;
+  font-size: 14px;
+}
+button.primary {
+  background: var(--green);
+  color: #062116;
+  border: 0;
+}
+.paid {
+  opacity: 0.58;
+}
+.paid .name b {
+  text-decoration: line-through;
+}
+.totalrow {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.totalrow strong {
+  color: var(--text);
+}
+.historyrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.lock {
+  position: fixed;
+  inset: 0;
+  background: #080e19;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.lockbox {
+  width: min(100%, 390px);
+  background: #131e30;
+  border: 1px solid #26364d;
+  border-radius: 22px;
+  padding: 25px;
+  text-align: center;
+}
+.lockbox h1 {
+  font-size: 24px;
+}
+.lockbox p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.lockbox input {
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 8px;
+  margin: 12px 0;
+}
+.lockbox button {
+  width: 100%;
+  margin-top: 8px;
+}
+.hidden {
+  display: none !important;
+}
+
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+button {
+  cursor: pointer;
+  min-height: 44px;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:hover {
+  filter: brightness(1.12);
+}
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+.toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.toolbar h2 {
+  margin: 0;
+}
+.item {
+  flex-wrap: wrap;
+}
+.item .name {
+  overflow-wrap: anywhere;
+}
+.item .row-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: 30px;
+  width: 100%;
+  align-items: center;
+}
+.item .row-actions small {
+  flex: 1;
+  color: var(--muted);
+  font-size: 12px;
+}
+.compact {
+  padding: 6px 10px;
+  min-height: 36px;
+}
+.danger {
+  color: var(--red);
+}
+.empty {
+  padding: 20px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.filters {
+  display: flex;
+  gap: 6px;
+  margin: 14px 0;
+  flex-wrap: wrap;
+}
+.filters button[aria-pressed="true"] {
+  border-color: var(--green);
+  color: var(--green);
+}
+dialog {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  width: min(94vw, 480px);
+  max-height: 90dvh;
+  padding: 22px;
+}
+dialog::backdrop {
+  background: #000b;
+}
+dialog h2 {
+  font-size: 22px;
+}
+dialog label {
+  display: block;
+  font-size: 14px;
+  color: var(--muted);
+  margin: 14px 0 6px;
+}
+dialog input:not([type="checkbox"]),
+dialog select {
+  width: 100%;
+  text-align: left;
+}
+dialog .actions {
+  margin-top: 22px;
+  justify-content: flex-end;
+}
+dialog p {
+  line-height: 1.6;
+  font-size: 14px;
+}
+.checklabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.checklabel input {
+  width: 20px;
+  height: 20px;
+}
+.status {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  background: #1c2b42;
+  border: 1px solid var(--green);
+  padding: 12px 18px;
+  border-radius: 12px;
+  z-index: 200;
+  font-size: 14px;
+}
+.activity {
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.activity small {
+  display: block;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.historyrow {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  align-items: center;
+  background: transparent;
+  border-radius: 0;
+}
+.historyrow span:last-child {
+  text-align: right;
+}
+.income-input {
+  width: 150px !important;
+}
+.install-help {
+  line-height: 1.7;
+  font-size: 14px;
+  color: var(--muted);
+}
+.storage-error {
+  background: #4b2028;
+  border: 1px solid var(--red);
+  padding: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 250;
+}
+.lockbox input {
+  letter-spacing: 4px;
+}
+.amount {
+  width: 104px !important;
+}
+.note {
+  margin-bottom: 8px;
+}
+@media (max-width: 360px) {
+  body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .panel {
+    padding: 12px;
+  }
+  .metric {
+    padding: 10px;
+  }
+  .metric .value {
+    font-size: 18px;
+  }
+  .monthrow {
+    gap: 6px;
+  }
+  .salary {
+    flex-wrap: wrap;
+  }
+  .name b {
+    font-size: 14px;
+  }
+}
